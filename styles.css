@@ -1,42 +1,270 @@
-:root{
-  --bg:#f7eee6;
-  --card:#fff;
-  --accent:#8b4513;
-  --muted:#6b7a73;
+:root {
+  /* YOUR ORIGINAL PALETTE MAPPED TO NEW STRUCTURE */
+  --bg-body: #f7eee6;       /* Your original background */
+  --bg-card: #ffffff;       /* Your original card color */
+  --primary: #8b4513;       /* Your original accent (Brown) */
+  --primary-hover: #6d360f; /* Darker brown for hover states */
+  --text-main: #222222;     /* Your text color */
+  --text-muted: #6b7a73;    /* Your muted color */
+  
+  /* UI VARIABLES */
+  --border: #e6dbd0;        /* A color that blends with your beige theme */
+  --radius: 12px;           /* Your preferred radius */
+  --shadow: 0 6px 18px rgba(0,0,0,0.06); /* Your original shadow */
 }
-body{
-  font-family: Inter, system-ui, "Segoe UI", Roboto, Arial;
-  background:var(--bg);
-  color:#222;
-  margin:18px;
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Inter, system-ui, Segoe UI, Roboto, Arial;
+  background-color: var(--bg-body);
+  color: var(--text-main);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
-h1{ color:var(--accent); margin:0 0 6px; }
-.wrap{ max-width:1100px; margin:0 auto; }
-.meta{ color:var(--muted); margin-bottom:12px; }
-.controls{
-  display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin:12px 0;
+
+/* =========================================
+   LAYOUT (SIDEBAR & MAIN)
+   ========================================= */
+.app-container {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  height: 100vh;
+  overflow: hidden;
 }
-.controls label{ font-size:13px; color:var(--muted); }
-.inline{ display:flex; align-items:center; gap:6px; }
-input[type="file"]{ padding:6px; }
-.presets select, .controls button, .controls input[type="checkbox"], #composeMode {
-  padding:8px; border-radius:8px; border:1px solid rgba(0,0,0,0.06);
+
+/* Sidebar Styling */
+.sidebar {
+  background: var(--bg-card);
+  border-right: 1px solid var(--border);
+  padding: 24px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
-.grid{
-  display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:14px; margin-top:14px;
+
+.main-content {
+  padding: 30px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
-.card{
-  background:var(--card); padding:12px; border-radius:12px; box-shadow:0 6px 18px rgba(0,0,0,0.06);
+
+/* Typography */
+.brand {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--primary); /* Uses your accent color */
+  margin-bottom: 4px;
 }
-.frame{ display:flex; flex-direction:column; align-items:center; gap:8px; }
-.canvas-wrap{ width:100%; display:flex; justify-content:center; align-items:center; padding:8px; }
-canvas{ background:#000; border-radius:10px; max-width:100%; height:auto; box-shadow:0 8px 20px rgba(0,0,0,0.15); }
-.meta { font-size:13px; color:var(--muted); }
-.row { display:flex; gap:8px; flex-wrap:wrap; }
-button.primary { background:var(--accent); color:white; border:none; padding:8px 12px; border-radius:10px; cursor:pointer; }
-button.ghost { background:transparent; border:1px solid var(--accent); color:var(--accent); padding:8px 12px; border-radius:10px; cursor:pointer; }
-.footer { margin-top:18px; font-size:13px; color:var(--muted); }
-.bezel-status { font-size:12px; color:var(--muted); margin-top:6px; }
-.warn { color:#b33; font-weight:600; }
-.note { display:block; color:var(--muted); margin-top:8px; }
-.badge { background:#ffeecf; padding:4px 8px; border-radius:8px; font-size:12px; color:#5a3c00; }
+.subtitle { font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; }
+
+/* =========================================
+   CARDS & CONTAINERS
+   ========================================= */
+.card {
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  padding: 16px;
+  border: 1px solid rgba(0,0,0,0.04);
+  box-shadow: var(--shadow);
+}
+
+.card h3 {
+  margin: 0 0 12px 0;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+/* =========================================
+   FORM ELEMENTS
+   ========================================= */
+label { display: block; font-size: 0.9rem; margin-bottom: 6px; font-weight: 500; color: var(--text-main); }
+
+select, textarea, input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: #fdfbf9; /* Slight off-white to match theme */
+  font-family: inherit;
+  font-size: 0.9rem;
+  margin-bottom: 12px;
+  color: var(--text-main);
+}
+
+select:focus, textarea:focus {
+  outline: 2px solid var(--primary);
+  border-color: transparent;
+}
+
+/* Custom File Drop Area */
+.file-drop-area {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 24px;
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  background-color: #fdfbf9;
+  transition: 0.2s;
+  text-align: center;
+  cursor: pointer;
+}
+
+.file-drop-area:hover {
+  border-color: var(--primary);
+  background: #fff;
+}
+
+input[type="file"] {
+  position: absolute;
+  left: 0; top: 0; width: 100%; height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.file-msg { font-size: 0.85rem; color: var(--text-muted); pointer-events: none; }
+
+/* =========================================
+   TOGGLES & BUTTONS
+   ========================================= */
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  cursor: pointer;
+}
+.toggle-row span { font-size: 0.9rem; }
+
+input[type="checkbox"] {
+  appearance: none;
+  width: 40px;
+  height: 22px;
+  background: #e6dbd0;
+  border-radius: 20px;
+  position: relative;
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+input[type="checkbox"]::after {
+  content: '';
+  position: absolute;
+  top: 2px; left: 2px;
+  width: 18px; height: 18px;
+  background: white;
+  border-radius: 50%;
+  transition: 0.3s;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+input[type="checkbox"]:checked { background: var(--primary); }
+input[type="checkbox"]:checked::after { transform: translateX(18px); }
+
+.btn-group { display: grid; gap: 10px; margin-top: 10px; }
+
+button {
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: 0.2s;
+  width: 100%;
+}
+
+button.primary {
+  background: var(--primary);
+  color: white;
+  border: none;
+}
+button.primary:hover { background: var(--primary-hover); }
+
+button.ghost {
+  background: transparent;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+}
+button.ghost:hover { background: rgba(139, 69, 19, 0.05); }
+
+/* =========================================
+   BEZEL EDITOR & CANVAS
+   ========================================= */
+#bezelPreviewWrap {
+  background: #eee;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 10px;
+  border: 1px solid var(--border);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  position: relative; /* Needed for handles */
+}
+
+canvas {
+  max-width: 100%;
+  height: auto;
+  box-shadow: var(--shadow);
+  display: block;
+}
+
+/* The handles for the editor - ESSENTIAL TO KEEP */
+.handle {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: #fff;
+  border: 2px solid var(--primary);
+  border-radius: 2px;
+  transform: translate(-50%,-50%);
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  z-index: 10;
+}
+
+.bezel-list {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--primary);
+  margin-top: 5px;
+  word-break: break-all;
+}
+
+/* =========================================
+   PREVIEW GRID
+   ========================================= */
+#previewGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+
+#previewGrid img {
+  width: 100%;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  background: var(--bg-card);
+}
+
+.meta { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 8px; }
+
+/* Responsive Adjustments */
+@media (max-width: 900px) {
+  .app-container { grid-template-columns: 1fr; overflow-y: auto; }
+  .sidebar { height: auto; border-right: none; border-bottom: 1px solid var(--border); }
+}

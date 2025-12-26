@@ -4,87 +4,146 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Tablet Screenshot Exporter — Daily Bread</title>
-
-  <!-- Libraries -->
-  <script src="https://unpkg.com/jszip@3.10.0/dist/jszip.min.js"></script>
-  <script src="https://unpkg.com/file-saver@2.0.5/dist/FileSaver.min.js"></script>
-
-  <link rel="stylesheet" href="styles.css" />
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+  <link rel="manifest" href="manifest.json">
 </head>
 <body>
-  <div class="wrap">
-    <h1>Tablet Screenshot Exporter — Mobile Application</h1>
-    <div class="meta">
-      Batch-generate 7" & 10" tablet screenshots, portrait & landscape, add a
-      bezel mockup (PNG or drawn) and export everything as a ZIP.
-    </div>
 
-    <div class="controls">
-      <label>
-        Upload screenshots
-        <input id="multiUpload" type="file" accept="image/*" multiple />
-      </label>
-
-      <div class="presets">
-        <label for="presetSelect">Preset:</label>
-        <select id="presetSelect">
-          <option value="gp">Google Play (recommended)</option>
-          <option value="7">7-inch (1024×600 / 600×1024)</option>
-          <option value="10">10-inch (1280×800 / 800×1280)</option>
-        </select>
+  <div class="app-container">
+    
+    <aside class="sidebar">
+      <div>
+        <div class="brand">Tablet Exporter</div>
+        <div class="subtitle">EPKK world Tooling</div>
       </div>
 
-      <label class="inline">
-        <input id="bezelToggle" type="checkbox" /> Add tablet bezel
-      </label>
+      <div class="card">
+        <h3>Configuration</h3>
+        
+        <label>Source Images</label>
+        <div class="file-drop-area">
+          <span class="file-msg">Drag & drop screenshots or click</span>
+          <input id="multiUpload" type="file" accept="image/*" multiple />
+        </div>
 
-      <label class="inline">
-        <input id="useBezelAsset" type="checkbox" /> Use PNG bezels
-      </label>
+        <div style="margin-top: 15px;">
+          <label for="presetSelect">Target Preset</label>
+          <select id="presetSelect">
+            <option value="gp">Google Play (recommended)</option>
+            <option value="7">7-inch (1024×600)</option>
+            <option value="10">10-inch (1280×800)</option>
+          </select>
+        </div>
 
-      <label class="inline">
-        <input id="bgPad" type="checkbox" /> Add padding/background
-      </label>
+        <div style="margin-top: 15px;">
+            <label for="storeProfile">Export Profile</label>
+            <select id="storeProfile">
+              <option value="play">Google Play (Recommended)</option>
+              <option value="appstore">App Store</option>
+              <option value="web">Web Standard</option>
+            </select>
+        </div>
+      </div>
 
-      <label class="inline">
-        <input id="autoRotate" type="checkbox" checked /> Auto-rotate to match orientation
-      </label>
+      <div class="card">
+        <h3>Customization</h3>
+        <label class="toggle-row">
+          <span>Add Tablet Bezel</span>
+          <input id="bezelToggle" type="checkbox" />
+        </label>
+        <label class="toggle-row">
+          <span>Use PNG Bezels</span>
+          <input id="useBezelAsset" type="checkbox" />
+        </label>
+        <label class="toggle-row">
+          <span>Add Background Padding</span>
+          <input id="bgPad" type="checkbox" />
+        </label>
+        <label class="toggle-row">
+          <span>Auto-Rotate</span>
+          <input id="autoRotate" type="checkbox" checked />
+        </label>
+      </div>
 
-      <label for="composeMode">Composition Mode:</label>
-      <select id="composeMode">
-        <option value="compose">Compose (blur background, center screenshot)</option>
-        <option value="rotate">Rotate input 90° when needed (rotates whole bitmap)</option>
-        <option value="embed">Embed centered (no blur, no rotate)</option>
-      </select>
+      <div class="card">
+        <h3>Actions</h3>
+        <div class="btn-group">
+          <button id="generateBtn" class="primary">Generate Previews</button>
+          <button id="exportAllBtn" class="ghost">Download ZIP</button>
+          <button id="gen10LandBtn" class="ghost" style="font-size: 0.8rem">Gen 10" Landscape Only</button>
+        </div>
+      </div>
 
-      <button id="generateBtn" class="primary">Generate Previews</button>
-      <button id="exportAllBtn" class="ghost">Export All (ZIP)</button>
-      <button id="gen10LandBtn" class="ghost">Generate 10" Landscape Only</button>
-    </div>
+      <div class="card">
+        <h3>Bezel Editor</h3>
+        <div class="meta">Drag handles on the canvas to adjust margins.</div>
+        
+        <label for="bezelPresetSelect">Editing Preset:</label>
+        <select id="bezelPresetSelect">
+          <option value="10-land">10" — landscape</option>
+          <option value="10-port">10" — portrait</option>
+          <option value="7-land">7" — landscape</option>
+          <option value="7-port">7" — portrait</option>
+          <option value="gp-land">GP — landscape</option>
+          <option value="gp-port">GP — portrait</option>
+        </select>
 
-    <div class="controls">
-      <label>Upload bezel PNGs (optional). Name files to match preset id:
-        <code>gp-land.png</code>, <code>gp-port.png</code>, <code>7-land.png</code>,
-        <code>7-port.png</code>, <code>10-land.png</code>, <code>10-port.png</code>.
-      </label>
-      <input id="bezelUpload" type="file" accept="image/png" multiple />
-      <label>
-        <input id="bezelJsonToggle" type="checkbox" /> Use bezel margins JSON
-      </label>
-      <input id="bezelJsonUpload" type="file" accept="application/json" />
-    </div>
+        <div id="bezelPreviewWrap">
+          <canvas id="bezelPreview" width="640" height="360"></canvas>
+        </div>
+        <div id="bezelStatus" class="meta" style="text-align: center;"></div>
 
-    <div class="grid" id="previewGrid">
-      <!-- generated frames will appear here -->
-    </div>
+        <div class="btn-group" style="grid-template-columns: 1fr 1fr;">
+          <button id="saveBezelBtn" class="primary">Save</button>
+          <button id="resetBezelBtn" class="ghost">Reset</button>
+        </div>
 
-    <div class="footer">
-      <strong>Note:</strong> Google Play accepts PNG or JPEG and requires
-      screenshots between 320px and 3840px on a side. Use the Google Play
-      preset for images sized to common store display ratios.
-    </div>
+        <hr style="border: 0; border-top: 1px solid var(--border); margin: 15px 0;">
+        
+        <label>Bezel Upload (PNG)</label>
+        <div class="file-drop-area" style="padding: 10px;">
+          <span class="file-msg">Upload PNGs</span>
+          <input id="bezelUpload" type="file" accept="image/png" multiple />
+        </div>
+        <span class="bezel-list" id="bezelList">No bezel assets loaded.</span>
+      </div>
+
+       <div class="card">
+        <h3>JSON Config</h3>
+        <textarea id="bezelJson" rows="3" placeholder='{"10-land": {"left":28...}}'></textarea>
+        <div class="btn-group" style="grid-template-columns: 1fr 1fr;">
+          <button id="applyBezelJson" class="ghost">Apply</button>
+          <button id="autoScaleBtn" class="ghost">Auto-scale</button>
+        </div>
+      </div>
+
+    </aside>
+
+    <main class="main-content">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h2 style="margin: 0; font-size: 1.5rem; color: var(--primary);">Preview Gallery</h2>
+        <div id="missingAssets" class="meta" style="color: var(--primary);"></div>
+      </div>
+
+      <div id="previewGrid">
+        <div style="grid-column: 1 / -1; text-align: center; padding: 40px; border: 2px dashed var(--border); border-radius: 12px; color: var(--text-muted);">
+          Upload images and click "Generate" to see results here.
+        </div>
+      </div>
+
+      <div class="footer meta" style="margin-top: auto; padding-top: 20px;">
+        <strong>Note:</strong> Google Play accepts PNG or JPEG. Screenshots must be between 320px and 3840px.
+      </div>
+    </main>
   </div>
 
-  <script src="app.js"></script>
+  <script src="https://unpkg.com/jszip@3.10.0/dist/jszip.min.js"></script>
+  <script src="https://unpkg.com/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
