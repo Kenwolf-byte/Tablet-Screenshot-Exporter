@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tablet Screenshot Exporter — Daily Bread</title>
+
+  <!-- Libraries -->
+  <script src="https://unpkg.com/jszip@3.10.0/dist/jszip.min.js"></script>
+  <script src="https://unpkg.com/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="wrap">
+    <h1>Tablet Screenshot Exporter — Mobile Application</h1>
+    <div class="meta">
+      Batch-generate 7" & 10" tablet screenshots, portrait & landscape, add a
+      bezel mockup (PNG or drawn) and export everything as a ZIP.
+    </div>
+
+    <div class="controls">
+      <label>
+        Upload screenshots
+        <input id="multiUpload" type="file" accept="image/*" multiple />
+      </label>
+
+      <div class="presets">
+        <label for="presetSelect">Preset:</label>
+        <select id="presetSelect">
+          <option value="gp">Google Play (recommended)</option>
+          <option value="7">7-inch (1024×600 / 600×1024)</option>
+          <option value="10">10-inch (1280×800 / 800×1280)</option>
+        </select>
+      </div>
+
+      <label class="inline">
+        <input id="bezelToggle" type="checkbox" /> Add tablet bezel
+      </label>
+
+      <label class="inline">
+        <input id="useBezelAsset" type="checkbox" /> Use PNG bezels
+      </label>
+
+      <label class="inline">
+        <input id="bgPad" type="checkbox" /> Add padding/background
+      </label>
+
+      <label class="inline">
+        <input id="autoRotate" type="checkbox" checked /> Auto-rotate to match orientation
+      </label>
+
+      <label for="composeMode">Composition Mode:</label>
+      <select id="composeMode">
+        <option value="compose">Compose (blur background, center screenshot)</option>
+        <option value="rotate">Rotate input 90° when needed (rotates whole bitmap)</option>
+        <option value="embed">Embed centered (no blur, no rotate)</option>
+      </select>
+
+      <button id="generateBtn" class="primary">Generate Previews</button>
+      <button id="exportAllBtn" class="ghost">Export All (ZIP)</button>
+      <button id="gen10LandBtn" class="ghost">Generate 10" Landscape Only</button>
+    </div>
+
+    <div class="controls">
+      <label>Upload bezel PNGs (optional). Name files to match preset id:
+        <code>gp-land.png</code>, <code>gp-port.png</code>, <code>7-land.png</code>,
+        <code>7-port.png</code>, <code>10-land.png</code>, <code>10-port.png</code>.
+      </label>
+      <input id="bezelUpload" type="file" accept="image/png" multiple />
+      <label>
+        <input id="bezelJsonToggle" type="checkbox" /> Use bezel margins JSON
+      </label>
+      <input id="bezelJsonUpload" type="file" accept="application/json" />
+    </div>
+
+    <div class="grid" id="previewGrid">
+      <!-- generated frames will appear here -->
+    </div>
+
+    <div class="footer">
+      <strong>Note:</strong> Google Play accepts PNG or JPEG and requires
+      screenshots between 320px and 3840px on a side. Use the Google Play
+      preset for images sized to common store display ratios.
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
