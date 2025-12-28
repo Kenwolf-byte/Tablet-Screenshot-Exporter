@@ -39,3 +39,8 @@ A lightweight browser tool to batch-create device screenshots for app store list
 ## License
 
 MIT
+
+## Bugs
+
+- To use live Bezel Edit manually you have to minimize the webbrowser
+- Still working on the scalling of images when adding bezel or png bezel is selcted

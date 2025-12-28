@@ -1,21 +1,23 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Tablet Screenshot Exporter — Daily Bread</title>
-  
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
+
   <link rel="stylesheet" href="styles.css">
   <link rel="manifest" href="manifest.json">
 </head>
+
 <body>
 
   <div class="app-container">
-    
+
     <aside class="sidebar">
       <div>
         <div class="brand">Tablet Exporter</div>
@@ -24,11 +26,16 @@
 
       <div class="card">
         <h3>Configuration</h3>
-        
+
         <label>Source Images</label>
         <div class="file-drop-area">
           <span class="file-msg">Drag & drop screenshots or click</span>
           <input id="multiUpload" type="file" accept="image/*" multiple />
+        </div>
+        
+        <div class="file-list-control-group">
+          <div id="fileListDisplay" class="file-list-feedback"></div>
+          <button id="clearFilesBtn" class="ghost small-btn" style="display: none;">Clear (0)</button>
         </div>
 
         <div style="margin-top: 15px;">
@@ -41,12 +48,12 @@
         </div>
 
         <div style="margin-top: 15px;">
-            <label for="storeProfile">Export Profile</label>
-            <select id="storeProfile">
-              <option value="play">Google Play (Recommended)</option>
-              <option value="appstore">App Store</option>
-              <option value="web">Web Standard</option>
-            </select>
+          <label for="storeProfile">Export Profile</label>
+          <select id="storeProfile">
+            <option value="play">Google Play (Recommended)</option>
+            <option value="appstore">App Store</option>
+            <option value="web">Web Standard</option>
+          </select>
         </div>
       </div>
 
@@ -82,7 +89,7 @@
       <div class="card">
         <h3>Bezel Editor</h3>
         <div class="meta">Drag handles on the canvas to adjust margins.</div>
-        
+
         <label for="bezelPresetSelect">Editing Preset:</label>
         <select id="bezelPresetSelect">
           <option value="10-land">10" — landscape</option>
@@ -104,7 +111,7 @@
         </div>
 
         <hr style="border: 0; border-top: 1px solid var(--border); margin: 15px 0;">
-        
+
         <label>Bezel Upload (PNG)</label>
         <div class="file-drop-area" style="padding: 10px;">
           <span class="file-msg">Upload PNGs</span>
@@ -113,7 +120,7 @@
         <span class="bezel-list" id="bezelList">No bezel assets loaded.</span>
       </div>
 
-       <div class="card">
+      <div class="card">
         <h3>JSON Config</h3>
         <textarea id="bezelJson" rows="3" placeholder='{"10-land": {"left":28...}}'></textarea>
         <div class="btn-group" style="grid-template-columns: 1fr 1fr;">
@@ -131,7 +138,8 @@
       </div>
 
       <div id="previewGrid">
-        <div style="grid-column: 1 / -1; text-align: center; padding: 40px; border: 2px dashed var(--border); border-radius: 12px; color: var(--text-muted);">
+        <div
+          style="grid-column: 1 / -1; text-align: center; padding: 40px; border: 2px dashed var(--border); border-radius: 12px; color: var(--text-muted);">
           Upload images and click "Generate" to see results here.
         </div>
       </div>
@@ -146,4 +154,5 @@
   <script src="https://unpkg.com/file-saver@2.0.5/dist/FileSaver.min.js"></script>
   <script src="script.js"></script>
 </body>
+
 </html>

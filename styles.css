@@ -30,7 +30,7 @@ body {
    ========================================= */
 .app-container {
   display: grid;
-  grid-template-columns: 320px 1fr;
+  grid-template-columns: 600px 1fr;
   height: 100vh;
   overflow: hidden;
 }
@@ -267,4 +267,24 @@ canvas {
 @media (max-width: 900px) {
   .app-container { grid-template-columns: 1fr; overflow-y: auto; }
   .sidebar { height: auto; border-right: none; border-bottom: 1px solid var(--border); }
+}
+
+
+.file-list-feedback {
+  margin-top: 8px;
+  max-height: 100px;
+  overflow-y: auto;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.file-list-feedback ul {
+  margin: 0;
+  padding-left: 18px; 
+}
+
+.file-list-feedback li {
+  margin-bottom: 2px;
+  word-break: break-all;
 }

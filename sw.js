@@ -1,10 +1,12 @@
-const CACHE_NAME = 'screenshot-exporter-v1';
+const CACHE_NAME = 'screenshot-exporter-v2';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
-  '/style.css',
-  '/script.js'
-  // add other static assets (icons, libs) if you host them locally
+  '/styles.css',
+  '/script.js',
+  // Critical External Libraries
+  'https://unpkg.com/jszip@3.10.0/dist/jszip.min.js',
+  'https://unpkg.com/file-saver@2.0.5/dist/FileSaver.min.js'
 ];
 
 self.addEventListener('install', (ev) => {
